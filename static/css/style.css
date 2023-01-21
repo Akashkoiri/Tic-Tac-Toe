@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main {
+    height: 400px;
+    width: 400px;
+    position: relative;
+    top: 50px;
+}
+.board {
+    height: 100%;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: .5rem;
+    padding: 1rem;
+    background: #313131;
+    border-radius: 8px;
+    box-shadow: 0px 19px 38px 0px rgba(0, 0, 0, 0.3),
+                0px 15px 12px 0px rgba(0,0,0,0.22);
+    cursor: pointer;
+}
+.cells {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #5c5c5c;
+    position: relative;
+}
+.cells:hover {
+    background: #4b4a4a;
+}
+
+
+.board.circle .cells:not(.circle, .cross):hover::before,
+.board .cells.circle::before {
+    content: '';
+    background: transparent;
+    height: 60%;
+    width: 60%;
+    border-radius: 50%;
+    border: 10px solid #fff;
+}
+
+.board.cross .cells:not(.circle, .cross):hover::before,
+.board.cross .cells:not(.circle, .cross):hover::after,
+.cells.cross::before,
+.cells.cross::after {
+    content: '';
+    position: absolute;
+    height: 80%;
+    width: 10%;
+    background-color: red;
+}
+.board.cross .cells:not(.circle, .cross):hover::before,
+.cells.cross::before {
+    transform: rotateZ(-45deg);
+}
+.board.cross .cells:not(.circle, .cross):hover::after,
+.cells.cross::after {
+    transform: rotateZ(45deg);
+}
+
+.board .cells:not(.circle, .cross):hover::before,
+.board .cells:not(.circle, .cross):hover::after {
+    opacity: .3;
+}
+
+
+.cells.circle,
+.cells.cross {
+    cursor: not-allowed
+}
