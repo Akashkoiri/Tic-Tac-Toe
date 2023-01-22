@@ -49,31 +49,29 @@ function handleClick(e) {
     }
 
     // AI Move 
-    bestMove(aiboard)  // return a best move with a better chance to win 
+    bestMove()  // return a best move with a better chance to win 
 }
 
-
-let blankPos = []
-function bestMove(aiboard) {
-    // calculate, mark & remove Eventlistener
-    for (let i=0; i<aiboard.length; i++) {
-        if (aiboard[i] == 0) {
-            blankPos.push(i)
-            aiboard[i] = 1
-            // Run on a new child node
-            if (checkWin('cross')) {
-                return element.id
-            }
-            // checkDraw()
-
-            bestMove(aiboard)
-        }
-    };
+// calculate, mark & remove Eventlistener
+function bestMove() {
+    blank = availableMoves(aiboard)[0]
+    aiboard[i] = 1
+    // check for win & draw
 
     
+    bestMove()
 }
 
 
+// Return all the blank positions
+function availableMoves(board, blankPos=[]) {
+    for (let i=0; i<board.length; i++) {
+        if (board[i] == 0) {
+            blankPos.push(i)
+        }
+    };
+    return blankPos
+}
 
 // Return only true or false
 function checkWin(turn) {
@@ -83,7 +81,7 @@ function checkWin(turn) {
         })
     })
 }
-// Re'circle' only true or false
+// Return only true or false
 function checkDraw() {
     // This is called destructuring ([...cells])
     return [...cells].every(cell => {
