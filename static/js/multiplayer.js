@@ -22,6 +22,7 @@ function startGame() {
     setTurn()           
     cells.forEach(cell => {
         cell.classList = cell.classList[0]
+        aiboard.fill(0)
         cell.removeEventListener('click', handleClick)
         cell.addEventListener('click', handleClick, {once: true})   
     });
@@ -33,6 +34,7 @@ function handleClick(e) {
     const turn = circleTurn ? 'circle' : 'cross'
     // Place Mark
     cell.classList.add(turn)
+    
     if (checkWin(turn)) {
         endGame(turn)
         startGame()
@@ -62,7 +64,7 @@ function setTurn() {
 function checkWin(turn) {
     return winCombinations.some(combination => {
         return combination.every(index => {
-            return cells[index].classList.contains(turn)
+            return aiboard[index] == 1 ? true : false
         })
     })
 }

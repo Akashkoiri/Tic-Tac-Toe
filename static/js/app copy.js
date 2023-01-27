@@ -29,15 +29,22 @@ cells.forEach(element => {
 });
 
 
-function randTurn(min, max) {
-    if (board.includes(0)) {
-        let randFloatNum = Math.random()
-        let random = Math.round((max-min) * randFloatNum)
-        let randInt = random + min
-        if (board[randInt] == 1) {
-            randInt = randTurn(min, max)
-        }
-        return randInt
-    }
-    return null
-}
+// let bestPos
+// blankPos.forEach(index => {
+//     aiboard[index] = 1
+//     let score = minimax(index)
+
+//     if (maxiPlayer) {
+//         if (score == 1) {
+            
+//         }
+//     }
+//     else {
+//         if (score == -1) {
+            
+//         }
+//     }
+//     if (score == 0) {
+//         bestPos = bestMove(depth+1, maxiPlayer=false)
+//     }
+// });

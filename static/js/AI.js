@@ -1,5 +1,6 @@
 const board = document.querySelector('.board')
 const cells = document.querySelectorAll('.cells')
+let circleTurn = true;
 
 const winCombinations = [
     // Horizontal
@@ -23,7 +24,8 @@ let aiboard = [0,0,0,
 
 startGame()
 
-function startGame() {     
+function startGame() {  
+    setTurn()   
     cells.forEach(cell => {
         cell.classList = cell.classList[0]
         aiboard.fill(0)
@@ -33,33 +35,94 @@ function startGame() {
 }
 
 function handleClick(e) {
-    // Place Mark
     const cell = e.target
-    aiboard[cell.id] = 1
-    cell.classList.add('circle')
-
-    if (checkWin('circle')) {
-        endGame('circle')
+    let turn = circleTurn ? 'circle' : 'cross'
+    // Place Mark
+    aiboard[cell.id] = turn=='circle' ? -1 : 1
+    cell.classList.add(turn)
+    if (checkWin()) {
+        endGame(turn)
         startGame()
     }
-
     if (checkDraw()) {
         endGame()
         startGame()
     }
 
-    // AI Move 
-    bestMove()  // return a best move with a better chance to win 
+    // Switch turn
+    circleTurn = !circleTurn
+    setTurn()
+
+    // AI Move
+    result = checkWin()
+    // console.log(result)
+    // best = bestMove()  // return a best move with a better chance to win 
+    
+    // if (best) {
+    //     turn = circleTurn ? 'circle' : 'cross'
+    //     aiboard[best] = turn=='circle' ? -1 : 1
+    //     cells[best].classList.add(turn)
+    // }
+    
+    // circleTurn = !circleTurn
+    // setTurn()
 }
 
-// calculate, mark & remove Eventlistener
-function bestMove() {
-    blank = availableMoves(aiboard)[0]
-    aiboard[i] = 1
-    // check for win & draw
 
-    
-    bestMove()
+function bestMove() {
+    blankPos = availableMoves(aiboard)
+
+    let bestScore = -Infinity
+    let bestIndex
+    blankPos.forEach(index => {
+        aiboard[index] = 1
+        let score = minimax(0, true)
+        // console.log("score: ", score)
+        aiboard[index] = 0
+        if (bestScore < score) {
+            bestScore = score
+            bestIndex = index
+        }
+    });
+    return bestIndex
+}
+
+
+
+
+
+
+
+function minimax(depth, maxiPlayer){
+    result = checkWin()
+    console.log("result: ", result)
+    if (result) {
+        return result
+    }
+    // else {
+    //     if (maxiPlayer) {
+    //         blankPos = availableMoves(aiboard)
+    //         let bestScore = -Infinity
+    //         blankPos.forEach(index => {
+    //             aiboard[index] = 1
+    //             let score = minimax(depth+1, false)
+    //             aiboard[index] = 0
+    //             bestScore = Math.max(bestScore, score)
+    //         });
+    //         return bestScore
+    //     }
+    //     else {
+    //         blankPos = availableMoves(aiboard)
+    //         let bestScore = Infinity
+    //         blankPos.forEach(index => {
+    //             aiboard[index] = 1
+    //             let score = minimax(depth+1, true)
+    //             aiboard[index] = 0
+    //             bestScore = Math.min(bestScore, score)
+    //         });
+    //         return bestScore
+    //     }
+    // }
 }
 
 
@@ -73,14 +136,47 @@ function availableMoves(board, blankPos=[]) {
     return blankPos
 }
 
-// Return only true or false
-function checkWin(turn) {
-    return winCombinations.some(combination => {
-        return combination.every(index => {
-            return cells[index].classList.contains(turn)
-        })
-    })
+function setTurn() {
+    // remove all extra classes
+    board.classList = board.classList[0]
+    if (circleTurn) {
+        board.classList.add('circle')
+    } 
+    else {
+        board.classList.add('cross')
+    }
 }
+
+// Return two things (-1 / 1) / ('circle'/'cross')
+function checkWin() {
+    obj = {}
+    isWin = winCombinations.some(combination => {
+
+        if (combination.every(index => {return aiboard[index] == 1 ? true : false})) {
+            obj[true] = 1
+            return true
+        }
+        else if (combination.every(index => {return aiboard[index] == -1 ? true : false})) {
+            obj[true] = -1
+            return true
+        }
+        else {
+            return false
+        }
+    })
+    if (isWin) {
+        if (obj[true] == 1) {
+            return 1
+        }
+        if (obj[true] == -1) {
+            return -1
+        }
+    } 
+    else {
+        return false
+    }
+}
+
 // Return only true or false
 function checkDraw() {
     // This is called destructuring ([...cells])
@@ -94,11 +190,17 @@ function endGame(turn) {
         'circle': "⚪",
         'cross': "❌"
     }
-    if ('circle') {
-        alert(`${emoji['circle']} won the match!!`)
+    if (turn) {
+        alert(`${emoji[turn]} won the match!!`)
     }
     else {
         alert('The match is draw')
     }
+}
+
+function randTurn() {
+    let randFloatNum = Math.random()
+    let random = Math.round((10-0) * randFloatNum)
+    return (random + 0)
 }
 
