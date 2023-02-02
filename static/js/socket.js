@@ -1,17 +1,36 @@
 const socket = io('ws://127.0.0.1:8080')
 
-function getName() {
-    let user = prompt("What's your name")
-    if (user == '') {
-        getName()
-    }
-    return user
+
+function webSocket(cell) {
+    socket.emit('clicked', 
+        {
+            'id': socket.id,
+            'cell': cell
+        }
+    )
 }
-const user = getName()
 
 
-socket.emit('message', `Hello from ${user}`)
+socket.on('clicked', (data)=> {
+    if (data.id != socket.id) {
+        const cell = cells[data.cell]
+        const turn = circleTurn ? 'circle' : 'cross'
 
-socket.on('message', (message)=> {
-    console.log(message)
+        cell.classList.add(turn)
+        if (checkWin(turn)) {
+            endGame(turn)
+            startGame()
+        }
+    
+        if (checkDraw()) {
+            endGame()
+            startGame()
+        }
+    
+        // Switch turn
+        circleTurn = !circleTurn
+        setTurn()
+
+        board.removeAttribute("style");
+    }
 })

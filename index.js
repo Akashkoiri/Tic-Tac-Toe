@@ -23,13 +23,15 @@ app.get('/', (req, res)=> {
 })
 
 
+
+
+
 // Sockets
 io.on("connection", (socket)=> {
     console.log('A new user is connected')
 
-    socket.on('message', (message) => {
-        console.log(message)
-        io.emit('message', message)
+    socket.on('clicked', (data)=> {
+        io.emit('clicked', data)
     })
 
 });
