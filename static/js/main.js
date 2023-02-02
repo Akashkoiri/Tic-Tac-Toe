@@ -2,7 +2,7 @@ const board = document.querySelector('.board')
 const cells = document.querySelectorAll('.cells')
 
 let circleTurn = true;
-
+let clicked = []
 
 const winCombinations = [
     // Horizontal
@@ -32,27 +32,31 @@ function startGame() {
 function handleClick(e) {
     // start here
     const cell = e.target
-    const turn = circleTurn ? 'circle' : 'cross'
-    // Sending to websocket
-    webSocket(cell.id)  
-    // Place Mark
-    cell.classList.add(turn)
-    if (checkWin(turn)) {
-        endGame(turn)
-        startGame()
+    if (!clicked.includes(cell.id)) {
+        clicked.push(cell.id)
+        console.log(clicked)
+        const turn = circleTurn ? 'circle' : 'cross'
+        // Sending to websocket
+        webSocket(cell.id)  
+        // Place Mark
+        cell.classList.add(turn)
+        if (checkWin(turn)) {
+            endGame(turn)
+            startGame()
+        }
+    
+        if (checkDraw()) {
+            endGame()
+            startGame()
+        }
+    
+        // Switch turn
+        circleTurn = !circleTurn
+        setTurn()
+    
+        // block user to take turn again until opponents turn is not done
+        board.style.setProperty("pointer-events", "none");
     }
-
-    if (checkDraw()) {
-        endGame()
-        startGame()
-    }
-
-    // Switch turn
-    circleTurn = !circleTurn
-    setTurn()
-
-    // block user to take turn again until opponents turn is not done
-    board.style.setProperty("pointer-events", "none");
 }
 
 function setTurn() {
