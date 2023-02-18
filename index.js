@@ -23,20 +23,41 @@ app.get('/', (req, res)=> {
 })
 
 
-
+let room = ''
 
 
 // Sockets
 io.on("connection", (socket)=> {
-    console.log('A new user is connected')
-
+    console.log(`A new user is connected (${socket.id})`)
+    let roomName
+    if (!room) {
+        room = random()
+        socket.join(room)
+        roomName = room
+    }
+    else {
+        console.log('yes')
+        socket.join(room)
+        roomName = room
+        room = ''
+    }
+    
     socket.on('clicked', (data)=> {
-        io.emit('clicked', data)
+        io.to(roomName).emit('clicked', data)
+    })
+
+    socket.on('reset', ()=> {
+        io.to(roomName).emit('reset')
     })
 
 });
 
 
+
+
+function random() {
+    return Math.random().toString(36).substring(2,7)
+}
 
 // Listening on port
 server.listen(port, ()=> {

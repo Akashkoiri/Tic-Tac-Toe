@@ -11,10 +11,16 @@ function webSocket(cell) {
 }
 
 
+socket.on('reset', ()=> {
+    console.log('reset')
+    startGame()
+})
+
+
 socket.on('clicked', (data)=> {
     if (data.id != socket.id) {
         clicked.push(data.cell)  // pushing id
-        console.log(clicked)
+        
         
         const cell = cells[data.cell]
         const turn = circleTurn ? 'circle' : 'cross'
@@ -35,5 +41,6 @@ socket.on('clicked', (data)=> {
         setTurn()
 
         board.removeAttribute("style");
+        rst_button.removeAttribute("style");
     }
 })

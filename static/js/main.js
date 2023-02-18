@@ -1,5 +1,6 @@
 const board = document.querySelector('.board')
 const cells = document.querySelectorAll('.cells')
+const rst_button = document.getElementById('restart-btn')
 
 let circleTurn = true;
 let clicked = []
@@ -20,8 +21,14 @@ const winCombinations = [
 
 startGame()
 
+rst_button.addEventListener('click', ()=>{
+    socket.emit('reset')
+    startGame()
+})
+
 function startGame() {
-    setTurn()           
+    clicked = []
+    setTurn()
     cells.forEach(cell => {
         cell.classList = cell.classList[0]
         cell.removeEventListener('click', handleClick)
@@ -34,7 +41,6 @@ function handleClick(e) {
     const cell = e.target
     if (!clicked.includes(cell.id)) {
         clicked.push(cell.id)
-        console.log(clicked)
         const turn = circleTurn ? 'circle' : 'cross'
         // Sending to websocket
         webSocket(cell.id)  
@@ -56,6 +62,7 @@ function handleClick(e) {
     
         // block user to take turn again until opponents turn is not done
         board.style.setProperty("pointer-events", "none");
+        rst_button.style.setProperty("pointer-events", "none");
     }
 }
 
@@ -97,3 +104,4 @@ function endGame(turn) {
         alert('The match is draw')
     }
 }
+
