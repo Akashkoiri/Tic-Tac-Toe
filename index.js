@@ -23,31 +23,31 @@ app.get('/', (req, res)=> {
 })
 
 
-let room = ''
 
+let room = ''
 
 // Sockets
 io.on("connection", (socket)=> {
     console.log(`A new user is connected (${socket.id})`)
-    let roomName
+
     if (!room) {
         room = random()
         socket.join(room)
-        roomName = room
     }
     else {
-        console.log('yes')
         socket.join(room)
-        roomName = room
         room = ''
     }
     
+
     socket.on('clicked', (data)=> {
-        io.to(roomName).emit('clicked', data)
+        // Here we are destructuring the rooms obj & 
+        // accessing the romm name by using the socket object
+        socket.to([...socket.rooms][1]).emit('clicked', data)
     })
 
     socket.on('reset', ()=> {
-        io.to(roomName).emit('reset')
+        socket.to([...socket.rooms][1]).emit('reset')
     })
 
 });
