@@ -14,7 +14,16 @@
 </head>
 
 <body>
-    <div class="main">
+    <div class="logo">
+        <img src="/img/logo.png" alt="logo">
+    </div>
+    <div class="score">
+        <div id="circle_score" class="inner circle">-</div>
+        <div id="cross_score" class="inner cross">-</div>
+    </div>
+    <div id="turn_indicator"></div>
+    
+    <div class="container">
         <div class="board circle">
             <div class="cells" id="0"></div>
             <div class="cells" id="1"></div>
@@ -29,8 +38,6 @@
 
         <button id="restart-btn">Restart</button>
     </div>
-
-    
 </body>
 
 </html>

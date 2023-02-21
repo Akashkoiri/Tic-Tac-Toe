@@ -1,6 +1,9 @@
 const board = document.querySelector('.board')
 const cells = document.querySelectorAll('.cells')
 const rst_button = document.getElementById('restart-btn')
+const turn_indicator = document.getElementById('turn_indicator')
+const circleScore = document.getElementById('circle_score')
+const crossScore = document.getElementById('cross_score')
 
 let circleTurn = true;
 let clicked = []
@@ -18,8 +21,20 @@ const winCombinations = [
     [0,4,8],
     [2,4,6]
 ]
+let score = {
+    circle: 0,
+    cross: 0
+}
+
+
 
 startGame()
+
+
+
+
+
+
 
 rst_button.addEventListener('click', ()=>{
     socket.emit('reset')
@@ -27,6 +42,15 @@ rst_button.addEventListener('click', ()=>{
 })
 
 function startGame() {
+    // Updating scores
+    if (score['circle'] != 0) {
+        circleScore.innerText = score['circle']
+    }
+    
+    if (score['cross'] != 0) {
+        crossScore.innerText = score['cross']
+    }
+
     clicked = []
     setTurn()
     cells.forEach(cell => {
@@ -71,9 +95,11 @@ function setTurn() {
     board.classList = board.classList[0]
     if (circleTurn) {
         board.classList.add('circle')
+        turn_indicator.innerText = '0 Turn'
     } 
     else {
         board.classList.add('cross')
+        turn_indicator.innerText = 'X Turn'
     }
 }
 // Return only true or false
@@ -98,6 +124,7 @@ function endGame(turn) {
         'cross': "❌"
     }
     if (turn) {
+        score[turn] += 1
         alert(`${emoji[turn]} won the match!!`)
     }
     else {

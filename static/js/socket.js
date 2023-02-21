@@ -1,4 +1,4 @@
-const socket = io('ws://127.0.0.1:8080')
+const socket = io('ws://127.0.0.1')
 
 
 function webSocket(cell) {
@@ -12,7 +12,6 @@ function webSocket(cell) {
 
 
 socket.on('reset', ()=> {
-    console.log('reset')
     startGame()
 })
 
@@ -44,3 +43,4 @@ socket.on('clicked', (data)=> {
         rst_button.removeAttribute("style");
     }
 })
+
