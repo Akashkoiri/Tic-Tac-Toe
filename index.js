@@ -50,12 +50,14 @@ io.on("connection", (socket)=> {
         socket.to([...socket.rooms][1]).emit('reset')
     })
 
+
+    socket.on('disconnecting', (socket)=> {
+        console.log(`A user is disconnected`)
+    })
 });
 
 
-io.on('disconnection', (socket)=> {
-    console.log(`A user is disconnected (${socket.id})`)
-})
+
 
 
 
