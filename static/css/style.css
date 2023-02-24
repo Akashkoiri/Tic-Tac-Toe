@@ -10,6 +10,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 .logo {
     position: absolute;
@@ -202,12 +203,20 @@ body {
     margin-top: 10px;
     flex-basis: 30px;
 }
+.search-scrn .container .inner.anime1 {
+    transform: translateX(258px);
+}
+.search-scrn .container .inner.anime2 {
+    transform: translateX(-258px);
+}
+.search-scrn .container .inner span {
+    display: none;
+}
+
 .search-scrn .container .inner.oppo {
-    /* animation: searching-oppo 1s cubic-bezier(0.46, 0.03, 0.52, 0.96);; */
     animation: searching-oppo 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
 }
 .search-scrn .container .inner.me{
-    /* animation: searching-me 1s cubic-bezier(0.46, 0.03, 0.52, 0.96);; */
     animation: searching-me 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
 }
 
@@ -219,9 +228,14 @@ body {
 .vs_logo img {
     position: absolute;
     width: 100%;
+    opacity: 100;
+    transition: 1.5s;
+
 }
 
-
+.search-scrn .container .vs_logo.hide img {
+    opacity: 0;
+}
 
 /* Animations */
 

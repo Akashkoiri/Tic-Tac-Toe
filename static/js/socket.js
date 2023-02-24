@@ -10,13 +10,12 @@ function webSocket(cell) {
     )
 }
 
-
 socket.on('reset', ()=> {
     startGame()
 })
 
-
 socket.on('clicked', (data)=> {
+    console.log('clicked')
     if (data.id != socket.id) {
         clicked.push(data.cell)  // pushing id
         
@@ -44,3 +43,11 @@ socket.on('clicked', (data)=> {
     }
 })
 
+socket.on('searching', ()=> {
+    search_anime()
+
+})
+
+socket.on('connected', ()=> {
+    connect_anime()
+})
