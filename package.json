@@ -4,16 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon index"
+    "start": "nodemon server"
   },
   "author": "Akash koiri",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "redis": "^4.6.4",
+    "mongoose": "^6.10.0",
     "socket.io": "^4.5.4"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "nodemon": "^2.0.20"
   }
 }
