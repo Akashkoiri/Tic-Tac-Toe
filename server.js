@@ -10,11 +10,10 @@ const port = process.env.PORT || 80
 
 // MongoDB Setup
 const mongoose = require('mongoose')
-const User = require('./models.js')
+const Room = require('./models.js')
 
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.DB_URL, ()=> {console.log('Connected to DB')})
-
 
 
 
@@ -29,14 +28,17 @@ app.get('/', async (req, res)=> {
 
 
 // Sockets
-io.on("connection", (socket)=> {
-    console.log(`A new user is connected (${typeof socket.id})`)
-
+io.on("connection", async (socket)=> {
+    console.log(`A new user is connected (${socket.id})`)
     
+
+    await setRoom(socket)
+
+    // Here we are destructuring the roomss obj & 
+    // accessing the romm name by using the socket object
     const room_id = [...socket.rooms][1]
+
     socket.on('clicked', (data)=> {
-        // Here we are destructuring the roomss obj & 
-        // accessing the romm name by using the socket object
         socket.to(room_id).emit('clicked', data)
     })
 
@@ -44,14 +46,42 @@ io.on("connection", (socket)=> {
         socket.to(room_id).emit('reset')
     })
 
-    socket.on('disconnecting', ()=> {
+    socket.on('disconnecting', async ()=> {
         console.log(`A user is disconnected from (${room_id})`)
+        await Room.updateMany(
+            {name: `${room_id}`},
+            {$pull: {'players': `${socket.id}`}}
+        )
         socket.to(room_id).emit('searching')
     })
 });
 
 
+// DB CRUD operation
+async function setRoom(socket) {
+    let room = await Room.findOneAndUpdate(
+        {players: {$not: {$size: 2}}},
+        {$push: {'players': `${socket.id}` }}
+    )
 
+    if (room) {
+        socket.join(room.name)
+        socket.to(room.name).emit('connected')
+    }
+    else {
+        room = await Room.create(
+            {
+                name: random(),
+                players: [socket.id]
+            }
+        )
+        socket.join(room.name)
+        socket.to(room.name).emit('searching')
+    }
+}
+
+
+ 
 
 function random() {
     return Math.random().toString(36).substring(2,7)

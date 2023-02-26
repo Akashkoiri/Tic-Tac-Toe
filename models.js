@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 
-const User = new mongoose.Schema(
+const Room = new mongoose.Schema(
     {
-        room: String,
+        name: String,
         players: [String]
     }
 )
 
-module.exports = mongoose.model('User', User)
+
+
+module.exports = mongoose.model('Room', Room)

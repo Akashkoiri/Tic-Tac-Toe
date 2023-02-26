@@ -44,10 +44,12 @@ socket.on('clicked', (data)=> {
 })
 
 socket.on('searching', ()=> {
+    console.log('searching')
     search_anime()
-
+    
 })
 
 socket.on('connected', ()=> {
+    console.log('connected')
     connect_anime()
 })

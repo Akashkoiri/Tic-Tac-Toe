@@ -31,11 +31,6 @@ let score = {
 startGame()
 
 
-
-
-
-
-
 rst_button.addEventListener('click', ()=>{
     socket.emit('reset')
     startGame()
