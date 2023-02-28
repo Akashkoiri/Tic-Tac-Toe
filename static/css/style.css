@@ -172,6 +172,9 @@ body {
     justify-content: center;
     align-items: center;
 }
+.search-scrn.hide {
+    display: none;
+}
 .search-scrn .container {
     position: relative;
     top: -15px;

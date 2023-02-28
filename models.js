@@ -7,6 +7,11 @@ const Room = new mongoose.Schema(
     }
 )
 
-
+// Middleware to delete a blank array
+Room.post('updateOne', async function(res) {
+    if (res.modifiedCount) {
+        await this.deleteMany({players: {$size: 0}}).clone()
+    }
+})
 
 module.exports = mongoose.model('Room', Room)
