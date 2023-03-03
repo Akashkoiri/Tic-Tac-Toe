@@ -53,3 +53,7 @@ socket.on('connected', ()=> {
     console.log('connected')
     connect_anime()
 })
+
+socket.on('disconnected', ()=> {
+    disconnect()
+})

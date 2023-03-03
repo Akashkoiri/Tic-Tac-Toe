@@ -169,6 +169,7 @@ body {
     background: #fff;
     z-index: 50;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -184,7 +185,7 @@ body {
     grid-template-columns: 1fr 2fr 1fr;
 }
 .search-scrn .container .inner {
-    height: 240px;
+    height: 260px;
     width: 200px;
     display: flex;
     align-items: center;
@@ -193,13 +194,24 @@ body {
     /* border: 1px solid red; */
 }
 .search-scrn .container .inner .player {
-    height: 100%;
-    width: 100%;
-    background: green;
-    border: 10px solid red;
+    position: relative;
+    height: 240px;
+    width: 200px;
+    border: 2px solid #575757;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.search-scrn .container .inner .player .avatar {
+    position: relative;
+    height: 110%;
+    width: 117%;
+    animation: search-anime 2s linear infinite;
 }
 .search-scrn .container .inner span {
+    height: 20px;
     color: blue;
     font-weight: bold;
     font-size: larger;
@@ -212,16 +224,17 @@ body {
 .search-scrn .container .inner.anime2 {
     transform: translateX(-258px);
 }
-.search-scrn .container .inner span {
-    display: none;
+.search-scrn .container .inner span.name.hide {
+    opacity: 0;
 }
 
 .search-scrn .container .inner.oppo {
-    animation: searching-oppo 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
+    animation: oppo 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
 }
 .search-scrn .container .inner.me{
-    animation: searching-me 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
+    animation: me 1s cubic-bezier(0.46, 0.39, 0.12, 1.36);
 }
+
 
 .vs_logo {
     position: relative;
@@ -236,13 +249,12 @@ body {
 
 }
 
-.search-scrn .container .vs_logo.hide img {
+.vs_logo.hide img {
     opacity: 0;
 }
 
 /* Animations */
-
-@keyframes searching-me {
+@keyframes me {
     0% {
         transform: translateX(258px);
     }
@@ -251,11 +263,58 @@ body {
     }
 }
 
-@keyframes searching-oppo {
+@keyframes oppo {
     0% {
         transform: translateX(-258px);
     }
     100% {
         transform: translateX(0);
     }
+}
+
+@keyframes search-anime {
+    0% {
+        bottom: 0px;
+    }
+    50% {
+        bottom: 230px;
+    }
+}
+
+/* Loding animation */
+:root {
+    --main-color: #ecf0f1;
+    --point-color: #555;
+    --size: 5px;
+}
+.loader {
+    background-color: var(--main-color);
+    overflow: hidden;
+    top: 0; left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center; 
+    justify-content: center;
+    transition: 1s;
+    z-index: 100;
+}
+.loader.hide {
+    display: none;
+}
+.loader__element {
+    border-radius: 100%;
+    border: var(--size) solid var(--point-color);
+    margin: calc(var(--size)*2);
+}
+.loader__element:nth-child(1) {
+    animation: preloader .6s ease-in-out alternate infinite;
+}
+.loader__element:nth-child(2) {
+    animation: preloader .6s ease-in-out alternate .2s infinite;
+}
+.loader__element:nth-child(3) {
+    animation: preloader .6s ease-in-out alternate .4s infinite;
+}
+@keyframes preloader {
+    100% { transform: scale(2); }
 }

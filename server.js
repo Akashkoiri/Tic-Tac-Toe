@@ -40,6 +40,12 @@ app.get("/", (req, res) => {
   }
 });
 
+app.get("/thanks", (req, res)=> {
+  res.sendFile(path.join(__dirname, "templates/thanks.html"));
+})
+
+
+
 // Sockets
 io.on("connection", async (socket) => {
   console.log(`A new user is connected (${socket.id})`);
@@ -65,9 +71,11 @@ io.on("connection", async (socket) => {
       { $pull: { players: `${socket.id}` } }
     );
 
-    socket.to(room_id).emit("searching");
+    socket.to(room_id).emit("disconnected");
   });
 });
+
+
 
 // DB CRUD operation
 async function setRoom(socket) {
