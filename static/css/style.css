@@ -208,7 +208,12 @@ body {
     position: relative;
     height: 110%;
     width: 117%;
-    animation: search-anime 2s linear infinite;
+}
+.search-scrn .container .inner .player .avatar.first {
+    animation: search-anime1 .2s linear;
+}
+.search-scrn .container .inner .player .avatar.anime {
+    animation: search-anime2 .4s linear infinite;
 }
 .search-scrn .container .inner span {
     height: 20px;
@@ -272,14 +277,19 @@ body {
     }
 }
 
-@keyframes search-anime {
-    0% {
-        bottom: 0px;
-    }
-    50% {
-        bottom: 230px;
+@keyframes search-anime1 {
+    100% {
+        transform: translateY(-200px);
     }
 }
+@keyframes search-anime2 {
+    100% {
+        transform: translateY(-400px);
+    }
+}
+
+
+
 
 /* Loding animation */
 :root {

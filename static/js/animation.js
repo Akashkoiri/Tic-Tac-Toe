@@ -5,12 +5,24 @@ const avatar = document.querySelectorAll('.avatar')
 const names = document.querySelectorAll('.name')
 const loader = document.querySelector('.loader')
 
-let num = setImage()
 
+
+let num = Math.floor(Math.random() * (9 - 1) + 1)
+
+avatar[0].addEventListener('animationend', ()=> {
+    avatar[0].classList.remove('first')
+    avatar[0].style.top = '200px'
+    avatar[0].classList.add('anime')
+})
 
 function search_anime() {
-    avatar[1].setAttribute('src', `/img/avatars/default.jpg`)
+    console.log('Search Anime')
     avatar[0].setAttribute('src', `/img/avatars/default.jpg`)
+    avatar[1].setAttribute('src', `/img/avatars/default.jpg`)
+    avatar[0].classList.remove('anime')
+    avatar[0].classList.add('first')
+    avatar[1].style.top = '200px'
+    avatar[1].classList.add('anime')
     logo.classList.add('hide')
     names[0].classList.add('hide')
     names[1].classList.add('hide')
@@ -19,6 +31,7 @@ function search_anime() {
     inner[1].classList.add('anime2')
     inner[0].classList.remove('me')
     inner[1].classList.remove('oppo')
+
     setTimeout(() => {
         srch_screen.classList.remove('hide')
     }, 2000);
@@ -27,6 +40,10 @@ function search_anime() {
 function connect_anime() {
     avatar[0].setAttribute('src', `/img/avatars/${num}.png`)
     avatar[1].setAttribute('src', `/img/avatars/${num + 1}.png`)
+    avatar[0].classList.remove('anime')
+    avatar[1].classList.remove('anime')
+    avatar[0].style.top = '0px'
+    avatar[1].style.top = '0px'
     logo.classList.remove('hide')
     names[0].classList.remove('hide')
     names[1].classList.remove('hide')
@@ -51,6 +68,5 @@ function disconnect() {
     }
 }
 
-function setImage() {
-    return Math.floor(Math.random() * (9 - 1) + 1)
-}
+
+
