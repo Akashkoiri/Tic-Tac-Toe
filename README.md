@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-https://tic-tac-to-game.glitch.me/
+https://tic--tac-toe.glitch.me/
 
 A Multiplayer Tic_Tac_Toe game Made by @Akashkoiri
 
